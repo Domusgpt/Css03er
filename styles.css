@@ -1,10 +1,10 @@
 /* Base Color Palette & Variables */
 :root {
-  --electric-cyan: #00fff7;
-  --neon-magenta: #ff00ff;
-  --deep-purple: #2D1B69;
   --background-color: #00081d;
-  --vaporwave-bg: linear-gradient(135deg, var(--neon-magenta), var(--deep-purple), var(--electric-cyan));
+  /* Default palette (can be updated per section via JS) */
+  --primary: #00fff7;       /* Electric Cyan */
+  --secondary: #ff00ff;     /* Neon Magenta */
+  --accent: #2D1B69;        /* Deep Purple */
 }
 
 /* RESET & Base Styles */
@@ -19,24 +19,24 @@ body {
   height: 100%;
   overflow-x: hidden;
   scroll-behavior: smooth;
-  font-family: 'Orbitron', sans-serif;
+  font-family: 'Montserrat', sans-serif;
   background: var(--background-color);
-  color: var(--electric-cyan);
+  color: var(--primary);
 }
 
 /* Headings & Text */
 h1 {
-  font-size: 4vw;
-  letter-spacing: 0.2vw;
+  font-size: 3.5vw;
+  letter-spacing: 0.1vw;
   text-transform: uppercase;
-  background: linear-gradient(90deg, var(--neon-magenta), var(--electric-cyan));
+  background: linear-gradient(90deg, var(--secondary), var(--primary));
   -webkit-background-clip: text;
   color: transparent;
   animation: flicker 1.5s infinite alternate;
   cursor: pointer;
 }
 p {
-  font-size: 1.5rem;
+  font-size: 1.4rem;
   max-width: 800px;
   text-align: center;
   line-height: 1.5;
@@ -79,7 +79,7 @@ p {
   filter: invert(1);
 }
 
-/* Portal Overlay for Section Transitions */
+/* Global Portal Overlay */
 .portal {
   position: fixed;
   width: 100vw;
@@ -101,9 +101,9 @@ p {
   top: 5%;
   left: 50%;
   transform: translateX(-50%);
-  font-size: 3rem;
-  color: var(--electric-cyan);
-  text-shadow: 0 0 15px var(--neon-magenta);
+  font-size: 2.8rem;
+  color: var(--primary);
+  text-shadow: 0 0 15px var(--secondary);
   z-index: 400;
   cursor: pointer;
   user-select: none;
@@ -113,7 +113,7 @@ p {
 .section {
   position: relative;
   width: 100%;
-  height: 100vh; /* Full viewport height */
+  height: 100vh;
   padding: 2rem;
   display: flex;
   justify-content: center;
@@ -126,9 +126,10 @@ p {
 .section .section-content {
   opacity: 0;
   transform: translateY(20px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
 }
 
-/* Video Window in 'Who We Are' Section */
+/* Video Window */
 .video-window {
   margin: 1rem auto;
   max-width: 640px;
@@ -138,18 +139,18 @@ p {
 .video-window iframe {
   width: 100%;
   height: 360px;
-  border: 3px solid var(--electric-cyan);
-  box-shadow: 0 0 20px var(--neon-magenta);
+  border: 3px solid var(--primary);
+  box-shadow: 0 0 20px var(--secondary);
 }
 
-/* Overlay shown when video is playing */
+/* Video Thanks Overlay */
 #video-thanks {
   position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  background: rgba(0, 0, 0, 0.8);
-  color: var(--electric-cyan);
+  background: rgba(0, 0, 0, 0.85);
+  color: var(--primary);
   padding: 1rem 2rem;
   font-size: 2rem;
   opacity: 0;
@@ -162,7 +163,7 @@ a.cta {
   display: inline-block;
   margin-top: 1.5rem;
   padding: 0.75rem 1.5rem;
-  background: var(--electric-cyan);
+  background: var(--primary);
   color: var(--background-color);
   text-decoration: none;
   font-size: 1.5rem;
@@ -170,14 +171,14 @@ a.cta {
   transition: background 0.3s ease;
 }
 a.cta:hover {
-  background: var(--neon-magenta);
+  background: var(--secondary);
 }
 
 /* Neon Flare Effect */
 .neon-flare {
   position: absolute;
   border-radius: 50%;
-  background: radial-gradient(circle, var(--electric-cyan) 0%, transparent 70%);
+  background: radial-gradient(circle, var(--primary) 0%, transparent 70%);
   width: 200px;
   height: 200px;
   pointer-events: none;
