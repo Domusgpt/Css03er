@@ -1,7 +1,6 @@
-/* Base Color Palette & Variables */
+/* Base Variables & Palette (default values, will be tweened per section) */
 :root {
   --background-color: #00081d;
-  /* Default palette (can be updated per section via JS) */
   --primary: #00fff7;       /* Electric Cyan */
   --secondary: #ff00ff;     /* Neon Magenta */
   --accent: #2D1B69;        /* Deep Purple */
@@ -13,34 +12,28 @@
   padding: 0;
   box-sizing: border-box;
 }
-html,
-body {
+html, body {
   width: 100%;
   height: 100%;
-  overflow-x: hidden;
+  overflow: hidden; /* Hide native scroll */
   scroll-behavior: smooth;
   font-family: 'Montserrat', sans-serif;
   background: var(--background-color);
   color: var(--primary);
 }
 
-/* Headings & Text */
-h1 {
-  font-size: 3.5vw;
-  letter-spacing: 0.1vw;
-  text-transform: uppercase;
-  background: linear-gradient(90deg, var(--secondary), var(--primary));
-  -webkit-background-clip: text;
-  color: transparent;
-  animation: flicker 1.5s infinite alternate;
-  cursor: pointer;
+/* Scroll Container (for mapping scroll progress to camera movement) */
+#scroll-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  overflow-y: scroll;
+  z-index: 500; /* On top of canvas but below overlay content */
 }
-p {
-  font-size: 1.4rem;
-  max-width: 800px;
-  text-align: center;
-  line-height: 1.5;
-  margin-top: 1rem;
+#scroll-content {
+  height: 700vh; /* 7 sections × 100vh = total travel distance */
 }
 
 /* Three.js Canvas */
@@ -57,42 +50,19 @@ p {
   filter: invert(1);
 }
 
-/* Overlay for Scanlines / Glitch Effects */
-#overlay {
+/* Global Portal Overlay */
+.portal {
   position: fixed;
   top: 0;
   left: 0;
   width: 100vw;
   height: 100vh;
-  pointer-events: none;
-  background: repeating-linear-gradient(
-    0deg,
-    transparent,
-    transparent 1px,
-    rgba(0, 0, 0, 0.05) 1px,
-    transparent 2px
-  );
-  z-index: 250;
-  transition: filter 0.5s ease;
-}
-#overlay.inverted {
-  filter: invert(1);
-}
-
-/* Global Portal Overlay */
-.portal {
-  position: fixed;
-  width: 100vw;
-  height: 100vh;
-  background: radial-gradient(circle, rgba(0, 255, 247, 0.3) 0%, rgba(0, 0, 0, 0.9) 100%);
+  background: radial-gradient(circle, rgba(0,255,247,0.3) 0%, rgba(0,0,0,0.9) 100%);
   mix-blend-mode: screen;
   pointer-events: none;
   opacity: 0;
-  transition: opacity 0.5s ease-in-out;
+  transition: opacity 0.5s ease;
   z-index: 300;
-}
-.portal.active {
-  opacity: 1;
 }
 
 /* Main Logo */
@@ -106,27 +76,28 @@ p {
   text-shadow: 0 0 15px var(--secondary);
   z-index: 400;
   cursor: pointer;
-  user-select: none;
 }
 
-/* Section Styles */
-.section {
-  position: relative;
+/* Sections Overlay: fixed container for section content */
+#sections-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
   width: 100%;
-  height: 100vh;
-  padding: 2rem;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-  background: rgba(0, 0, 0, 0.3);
-  z-index: 100;
-  transition: background 1s ease-in-out;
+  height: 100%;
+  pointer-events: none;
+  z-index: 600;
 }
-.section .section-content {
+
+/* Each Section (absolute positioned; we use data attributes for 3D position) */
+#sections-overlay section {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  /* The z position is not used by CSS but read by JS to determine when to show content */
   opacity: 0;
   transform: translateY(20px);
-  transition: opacity 0.6s ease, transform 0.6s ease;
+  transition: opacity 0.8s ease, transform 0.8s ease;
 }
 
 /* Video Window */
@@ -154,8 +125,8 @@ p {
   padding: 1rem 2rem;
   font-size: 2rem;
   opacity: 0;
-  z-index: 600;
   transition: opacity 0.5s ease;
+  z-index: 700;
 }
 
 /* Call-to-Action Button */
@@ -183,7 +154,7 @@ a.cta:hover {
   height: 200px;
   pointer-events: none;
   animation: flareAnim 1s ease-out forwards;
-  z-index: 500;
+  z-index: 800;
 }
 @keyframes flareAnim {
   0% { transform: scale(0.2); opacity: 1; }

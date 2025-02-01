@@ -3,174 +3,175 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Clear Seas – Emergent Reality</title>
+    <title>Clear Seas – Portal Experience</title>
     <link rel="stylesheet" href="styles.css" />
-    <!-- Using Montserrat for a sleeker look -->
+    <!-- Using Montserrat for sleek modern typography -->
     <link
       href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&display=swap"
       rel="stylesheet"
     />
   </head>
   <body>
-    <!-- Three.js canvas in the background -->
+    <!-- A scroll container whose height represents the total travel distance -->
+    <div id="scroll-container">
+      <!-- Dummy content to drive scroll. Its height is (# sections * 100vh). -->
+      <div id="scroll-content"></div>
+    </div>
+
+    <!-- Three.js canvas (rendering our 3D scene) -->
     <canvas id="background-canvas"></canvas>
 
-    <!-- Overlay for scanlines / glitch effects -->
-    <div id="overlay"></div>
-
-    <!-- Global Portal overlay (for universal transitions) -->
+    <!-- Global overlay for portal transitions -->
     <div id="global-portal" class="portal"></div>
 
-    <!-- Main neon logo -->
+    <!-- Main neon logo (clickable to jump to home, for example) -->
     <div id="main-logo">Clear Seas Solutions</div>
 
-    <!-- SECTION 1: Who We Are (Video Window) -->
-    <section id="who-we-are" class="section" data-palette="palette1">
-      <div class="section-content">
-        <h1 data-text="Who We Are" class="glitch">Who We Are</h1>
-        <div class="video-window">
-          <!-- Embed your YouTube video -->
-          <iframe
-            id="intro-video"
-            width="640"
-            height="360"
-            src="https://www.youtube.com/embed/bxSvG2s8e-o?enablejsapi=1"
-            frameborder="0"
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-            allowfullscreen>
-          </iframe>
-        </div>
-        <p>
-          Experience our journey in bridging innovation with clarity.
-          Click play and watch our world transform.
-        </p>
-      </div>
-      <div id="video-thanks" class="video-thanks">Thank you for your attention!</div>
-    </section>
-
-    <!-- SECTION 2: Hero Section -->
-    <section id="hero" class="section" data-palette="palette2">
-      <div class="section-content">
-        <h1 data-text="Unlock AI’s Potential" class="glitch">
-          Unlock AI’s Potential Without the Enterprise Price Tag
-        </h1>
-        <p>
-          Clear Seas Solutions bridges the gap between cutting-edge AI technology
-          and small-to-medium businesses. We design tailored AI architectures and
-          deliver premium media production at a fraction of traditional costs.
-        </p>
-        <a href="#services" class="cta">Start Your AI Journey Today →</a>
-      </div>
-    </section>
-
-    <!-- SECTION 3: Services -->
-    <section id="services" class="section" data-palette="palette3">
-      <div class="section-content">
-        <h1 data-text="AI Strategy Meets Actionable Results" class="glitch">
-          AI Strategy Meets Actionable Results
-        </h1>
-        <p>
-          Whether you’re streamlining operations, automating workflows, or scaling
-          content creation, we turn AI from a buzzword into your competitive edge.
-          <br /><br />
-          <strong>AI Architecture Consulting:</strong> Custom-built solutions for your
-          industry, data, and goals.
-          <br />
-          <strong>Cost-Effective Media Production:</strong> High-impact video,
-          graphics, and branding without legacy agency markup.
-          <br />
-          <strong>Ongoing Optimization:</strong> We evolve with your business.
-        </p>
-      </div>
-    </section>
-
-    <!-- SECTION 4: Media Production -->
-    <section id="media-production" class="section" data-palette="palette4">
-      <div class="section-content">
-        <h1 data-text="Enterprise-Grade Creativity" class="glitch">
-          Enterprise-Grade Creativity, SMB Budgets
-        </h1>
-        <p>
-          Our hybrid approach blends human creativity with AI efficiency.
-          <br /><br />
-          <strong>80% Faster Turnarounds</strong>
-          <br />
-          <strong>Scalable Content Engines</strong>
-          <br />
-          <strong>Transparent Pricing</strong>
-          <br /><br />
-          <em>
-            “Clear Seas cut our video production costs by 60% and tripled our output.”
-            – [Client Name], Retail Industry
-          </em>
-        </p>
-      </div>
-    </section>
-
-    <!-- SECTION 5: Why Choose Us? -->
-    <section id="why-choose-us" class="section" data-palette="palette5">
-      <div class="section-content">
-        <h1 data-text="The Clear Seas Difference" class="glitch">
-          The Clear Seas Difference
-        </h1>
-        <p>
-          We focus on what matters:
-          <br /><br />
-          ✅ <strong>SMB-First Expertise</strong>
-          <br />
-          ✅ <strong>No One-Size-Fits-All</strong>
-          <br />
-          ✅ <strong>ROI-Driven Partnerships</strong>
-          <br />
-          ✅ <strong>Future-Proof Foundations</strong>
-        </p>
-      </div>
-    </section>
-
-    <!-- SECTION 6: Case Studies -->
-    <section id="case-studies" class="section" data-palette="palette6">
-      <div class="section-content">
-        <h1 data-text="From Insight to Impact" class="glitch">
-          From Insight to Impact
-        </h1>
-        <div class="case-study">
-          <h2>AI-Powered Inventory Management for a Mid-Sized Retailer</h2>
+    <!-- Fixed overlay for section content. Each section is positioned absolutely so that as the camera moves, the content fades in/out. -->
+    <div id="sections-overlay">
+      <!-- Section 1: Who We Are (with video) -->
+      <section id="section-who" data-index="0" data-z="0" data-palette="palette1">
+        <div class="section-content">
+          <h1 data-text="Who We Are" class="glitch">Who We Are</h1>
+          <div class="video-window">
+            <!-- Use YouTube embed -->
+            <iframe
+              id="intro-video"
+              width="640"
+              height="360"
+              src="https://www.youtube.com/embed/bxSvG2s8e-o?enablejsapi=1"
+              frameborder="0"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allowfullscreen>
+            </iframe>
+          </div>
           <p>
-            <strong>Challenge:</strong> Overstocking costs drained 15% of revenue.
-            <br />
-            <strong>Solution:</strong> Custom AI demand forecasting model + analytics.
-            <br />
-            <strong>Result:</strong> 35% reduction in excess inventory within 6 months.
+            Experience our journey in bridging innovation with clarity. Click
+            play and see our world transform.
           </p>
         </div>
-        <div class="case-study">
-          <h2>Scaling Content for a Healthcare Startup</h2>
+        <div id="video-thanks" class="video-thanks">Thank you for your attention!</div>
+      </section>
+
+      <!-- Section 2: Hero -->
+      <section id="section-hero" data-index="1" data-z="-20" data-palette="palette2">
+        <div class="section-content">
+          <h1 data-text="Unlock AI’s Potential" class="glitch">
+            Unlock AI’s Potential Without the Enterprise Price Tag
+          </h1>
           <p>
-            <strong>Challenge:</strong> Needed 50+ patient videos but had limited budget.
+            Clear Seas Solutions bridges the gap between cutting-edge AI technology
+            and small-to-medium businesses.
+          </p>
+          <a href="#section-services" class="cta">Start Your AI Journey Today →</a>
+        </div>
+      </section>
+
+      <!-- Section 3: Services -->
+      <section id="section-services" data-index="2" data-z="-40" data-palette="palette3">
+        <div class="section-content">
+          <h1 data-text="AI Strategy Meets Actionable Results" class="glitch">
+            AI Strategy Meets Actionable Results
+          </h1>
+          <p>
+            We turn AI from a buzzword into your competitive edge.
+            <br /><br />
+            <strong>Consulting:</strong> Tailored AI architectures.
             <br />
-            <strong>Solution:</strong> AI-assisted scriptwriting + hybrid animation.
+            <strong>Media Production:</strong> High-impact, cost-effective visuals.
             <br />
-            <strong>Result:</strong> 200% more content at 40% lower cost.
+            <strong>Optimization:</strong> Evolving with your business.
           </p>
         </div>
-      </div>
-    </section>
+      </section>
 
-    <!-- SECTION 7: Call to Action / Contact -->
-    <section id="cta" class="section" data-palette="palette7">
-      <div class="section-content">
-        <h1 data-text="Ready to Navigate the AI Revolution?" class="glitch">
-          Ready to Navigate the AI Revolution?
-        </h1>
-        <p>
-          Schedule a free consultation to explore how AI can transform your business.
-          Your first step to clearer seas starts here.
-        </p>
-        <a href="mailto:contact@clearseassolutions.com" class="cta">
-          Book Your Free Strategy Session →
-        </a>
-      </div>
-    </section>
+      <!-- Section 4: Media Production -->
+      <section id="section-media" data-index="3" data-z="-60" data-palette="palette4">
+        <div class="section-content">
+          <h1 data-text="Enterprise-Grade Creativity" class="glitch">
+            Enterprise-Grade Creativity, SMB Budgets
+          </h1>
+          <p>
+            Our hybrid approach blends human creativity with AI efficiency.
+            <br /><br />
+            <strong>80% Faster Turnarounds</strong>
+            <br />
+            <strong>Scalable Engines</strong>
+            <br />
+            <strong>Transparent Pricing</strong>
+            <br /><br />
+            <em>
+              “Clear Seas cut our production costs by 60% and tripled our output.”
+              – [Client Name]
+            </em>
+          </p>
+        </div>
+      </section>
+
+      <!-- Section 5: Why Choose Us -->
+      <section id="section-why" data-index="4" data-z="-80" data-palette="palette5">
+        <div class="section-content">
+          <h1 data-text="The Clear Seas Difference" class="glitch">
+            The Clear Seas Difference
+          </h1>
+          <p>
+            We focus on what matters:
+            <br /><br />
+            ✅ <strong>SMB-First Expertise</strong>
+            <br />
+            ✅ <strong>Custom Solutions</strong>
+            <br />
+            ✅ <strong>ROI-Driven Partnerships</strong>
+            <br />
+            ✅ <strong>Future-Proof Foundations</strong>
+          </p>
+        </div>
+      </section>
+
+      <!-- Section 6: Case Studies -->
+      <section id="section-cases" data-index="5" data-z="-100" data-palette="palette6">
+        <div class="section-content">
+          <h1 data-text="From Insight to Impact" class="glitch">
+            From Insight to Impact
+          </h1>
+          <div class="case-study">
+            <h2>AI-Powered Inventory Management</h2>
+            <p>
+              <strong>Challenge:</strong> Overstocking drained revenue.
+              <br />
+              <strong>Solution:</strong> Custom demand forecasting + analytics.
+              <br />
+              <strong>Result:</strong> 35% reduction in excess inventory.
+            </p>
+          </div>
+          <div class="case-study">
+            <h2>Scaling Content for Healthcare</h2>
+            <p>
+              <strong>Challenge:</strong> Needed 50+ videos with limited budget.
+              <br />
+              <strong>Solution:</strong> AI-assisted production.
+              <br />
+              <strong>Result:</strong> 200% more content at 40% lower cost.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Section 7: Call to Action -->
+      <section id="section-cta" data-index="6" data-z="-120" data-palette="palette7">
+        <div class="section-content">
+          <h1 data-text="Ready to Navigate the AI Revolution?" class="glitch">
+            Ready to Navigate the AI Revolution?
+          </h1>
+          <p>
+            Schedule a free consultation to explore how AI can transform your business.
+          </p>
+          <a href="mailto:contact@clearseassolutions.com" class="cta">
+            Book Your Free Strategy Session →
+          </a>
+        </div>
+      </section>
+    </div>
 
     <!-- External libraries -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
