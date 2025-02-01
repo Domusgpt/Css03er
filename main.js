@@ -89,7 +89,7 @@ class Boid {
     this.velocity.clampLength(0, MAX_SPEED);
     this.position.add(this.velocity);
     this.history.push(this.position.clone());
-    if (this.history.length > 50) this.history.shift();
+    if(this.history.length > 50) this.history.shift();
     this.acceleration.set(0, 0, 0);
   }
   
@@ -109,7 +109,7 @@ for (let i = 0; i < NUM_BOIDS; i++) {
   boids.push(new Boid());
 }
 
-// --- Create BufferGeometry for Boids ---
+// --- Create BufferGeometry for Boids (Layer 1: Base Particles) ---
 const boidGeometry = new THREE.BufferGeometry();
 const positions = new Float32Array(NUM_BOIDS * 3);
 const colors = new Float32Array(NUM_BOIDS * 3);
@@ -124,6 +124,27 @@ const boidMaterial = new THREE.PointsMaterial({
 });
 const boidPoints = new THREE.Points(boidGeometry, boidMaterial);
 scene.add(boidPoints);
+
+// --- Additional Particle Layer (Layer 2: Sparkles) ---
+const sparkleGeometry = new THREE.BufferGeometry();
+const sparkleCount = NUM_BOIDS / 2;
+const sparklePositions = new Float32Array(sparkleCount * 3);
+const sparkleColors = new Float32Array(sparkleCount * 3);
+for (let i = 0; i < sparkleCount * 3; i++) {
+  sparklePositions[i] = (Math.random() - 0.5) * 20;
+  sparkleColors[i] = Math.random();
+}
+sparkleGeometry.setAttribute('position', new THREE.BufferAttribute(sparklePositions, 3));
+sparkleGeometry.setAttribute('color', new THREE.BufferAttribute(sparkleColors, 3));
+const sparkleMaterial = new THREE.PointsMaterial({
+  size: 0.05,
+  vertexColors: true,
+  blending: THREE.AdditiveBlending,
+  transparent: true,
+  opacity: 0.7
+});
+const sparklePoints = new THREE.Points(sparkleGeometry, sparkleMaterial);
+scene.add(sparklePoints);
 
 // --- Additional Lattice & Grid Layers ---
 const groupLattice = new THREE.Group();
@@ -175,11 +196,49 @@ const gridMesh = new THREE.Mesh(gridGeometry, gridMaterial);
 gridMesh.position.z = -2.0;
 scene.add(gridMesh);
 
-// --- GSAP Scroll-Triggered Section Animations ---
+// --- New Atmosphere Layer (Animated Gradient Plane) ---
+const atmosphereGeometry = new THREE.PlaneGeometry(40, 40, 32, 32);
+const atmosphereMaterial = new THREE.ShaderMaterial({
+  uniforms: {
+    uTime: { value: 0 },
+    uHue: { value: 0 }
+  },
+  vertexShader: `
+    varying vec2 vUv;
+    void main(){
+      vUv = uv;
+      gl_Position = projectionMatrix * modelViewMatrix * vec4(position,1.0);
+    }
+  `,
+  fragmentShader: `
+    uniform float uTime;
+    uniform float uHue;
+    varying vec2 vUv;
+    void main(){
+      float brightness = smoothstep(0.3, 0.5, abs(sin(vUv.x * 10.0 + uTime)));
+      vec3 color = vec3(mod(uHue/360.0 + vUv.x, 1.0), 0.6, 1.0);
+      color = hsv2rgb(color);
+      gl_FragColor = vec4(color * brightness, 0.3);
+    }
+    vec3 hsv2rgb(vec3 c) {
+      vec3 rgb = clamp( abs(mod(c.x*6.0+vec3(0,4,2),6.0)-3.0)-1.0, 0.0, 1.0 );
+      return c.z * mix( vec3(1.0), rgb, c.y);
+    }
+  `,
+  transparent: true
+});
+const atmosphereMesh = new THREE.Mesh(atmosphereGeometry, atmosphereMaterial);
+atmosphereMesh.position.z = -3;
+scene.add(atmosphereMesh);
+
+// --- GSAP Scroll-Triggered Section Animations & Portal Transitions ---
 gsap.registerPlugin(ScrollTrigger);
+
+// For each section, fade in content and trigger a custom portal transition
 document.querySelectorAll(".section").forEach((section) => {
+  const content = section.querySelector(".section-content");
   gsap.fromTo(
-    section.querySelector(".section-content"),
+    content,
     { opacity: 0, y: 20 },
     {
       opacity: 1,
@@ -191,19 +250,56 @@ document.querySelectorAll(".section").forEach((section) => {
         start: "top 80%",
         end: "bottom 60%",
         toggleActions: "play none none reverse",
-        onEnter: () => console.log(`Entering ${section.id}`),
-        onLeaveBack: () => console.log(`Leaving ${section.id}`)
+        onEnter: () => {
+          // When entering, change the global color palette according to data attribute
+          changePalette(section.getAttribute("data-palette"));
+          // Trigger a brief portal overlay animation
+          portalTransition();
+        },
+        onLeaveBack: () => {
+          changePalette(section.getAttribute("data-palette"));
+          portalTransition();
+        }
       },
     }
   );
 });
 
-// --- Portal Transition on Scroll ---
-const portal = document.getElementById("portal");
+// --- Function to Trigger Portal Transition ---
+function portalTransition() {
+  const globalPortal = document.getElementById("global-portal");
+  gsap.fromTo(
+    globalPortal,
+    { opacity: 0 },
+    { opacity: 1, duration: 0.3, yoyo: true, repeat: 1 }
+  );
+}
+
+// --- Function to Change Global Palette ---
+function changePalette(paletteName) {
+  // Define palettes for each section – you can adjust these values as needed
+  const palettes = {
+    palette1: { primary: "#00fff7", secondary: "#ff00ff", accent: "#2D1B69", hue: 200 },
+    palette2: { primary: "#ff00ff", secondary: "#00fff7", accent: "#1a0dab", hue: 300 },
+    palette3: { primary: "#00fff7", secondary: "#2D1B69", accent: "#ff00ff", hue: 180 },
+    palette4: { primary: "#2D1B69", secondary: "#00fff7", accent: "#ff00ff", hue: 220 },
+    palette5: { primary: "#ff00ff", secondary: "#2D1B69", accent: "#00fff7", hue: 280 },
+    palette6: { primary: "#00fff7", secondary: "#ff00ff", accent: "#2D1B69", hue: 240 },
+    palette7: { primary: "#2D1B69", secondary: "#ff00ff", accent: "#00fff7", hue: 260 },
+  };
+  const palette = palettes[paletteName] || palettes.palette1;
+  // Update CSS variables
+  document.documentElement.style.setProperty("--primary", palette.primary);
+  document.documentElement.style.setProperty("--secondary", palette.secondary);
+  document.documentElement.style.setProperty("--accent", palette.accent);
+  // Tween atmosphere hue
+  gsap.to(atmosphereMaterial.uniforms.uHue, { value: palette.hue, duration: 1 });
+  // Optionally, update gridMaterial and particle colors here as well
+}
+
+// --- Portal Transition on Global Scroll ---
 let lastScrollY = window.scrollY;
 window.addEventListener("scroll", () => {
-  portal.classList.add("active");
-  setTimeout(() => { portal.classList.remove("active"); }, 300);
   const velocity = Math.abs(window.scrollY - lastScrollY) * 0.00002;
   globalGravity.set(0, -velocity, 0);
   lastScrollY = window.scrollY;
@@ -239,10 +335,10 @@ window.addEventListener("mousemove", (e) => {
 const video = document.getElementById("intro-video");
 const videoThanks = document.getElementById("video-thanks");
 video.addEventListener("play", () => {
-  // Invert colors by toggling a CSS class on the canvas and overlay
+  // Invert colors on canvas and overlay
   canvas.classList.add("inverted");
   document.getElementById("overlay").classList.add("inverted");
-  // Show "Thank you" overlay
+  // Show thank-you overlay
   videoThanks.style.opacity = "1";
   setTimeout(() => {
     videoThanks.style.opacity = "0";
@@ -262,7 +358,7 @@ function animate() {
   const deltaTime = (currentTime - prevTime) * 0.001;
   prevTime = currentTime;
   
-  // Update boids
+  // Update base boids
   for (let i = 0; i < boids.length; i++) {
     const boid = boids[i];
     boid.flock(boids);
@@ -299,6 +395,7 @@ function animate() {
   
   globalGravity.multiplyScalar(0.98);
   gridMaterial.uniforms.uTime.value += deltaTime;
+  atmosphereMaterial.uniforms.uTime.value += deltaTime;
   updateAdvancedEffects(deltaTime, lastMouseX, lastMouseY);
   
   renderer.render(scene, camera);
