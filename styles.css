@@ -1,0 +1,229 @@
+/* Base Color Palette & Variables */
+:root {
+  --electric-cyan: #00fff7;
+  --neon-magenta: #ff00ff;
+  --deep-purple: #2D1B69;
+  --background-color: #00081d;
+  --vaporwave-bg: linear-gradient(135deg, var(--neon-magenta), var(--deep-purple), var(--electric-cyan));
+}
+
+/* RESET & Base Styles */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+html, body {
+  width: 100%;
+  height: 100%;
+  overflow-x: hidden;
+  scroll-behavior: smooth;
+  font-family: 'Orbitron', sans-serif;
+  background: var(--background-color);
+  color: var(--electric-cyan);
+}
+
+/* Headings & Text */
+h1 {
+  font-size: 4vw;
+  letter-spacing: 0.2vw;
+  text-transform: uppercase;
+  background: linear-gradient(90deg, var(--neon-magenta), var(--electric-cyan));
+  -webkit-background-clip: text;
+  color: transparent;
+  animation: flicker 1.5s infinite alternate;
+  cursor: pointer;
+}
+p {
+  font-size: 1.5rem;
+  max-width: 800px;
+  text-align: center;
+  line-height: 1.5;
+  margin-top: 1rem;
+}
+
+/* Three.js Canvas */
+#background-canvas {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 0;
+}
+
+/* Overlay for Scanlines / Glitch Effects */
+#overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  pointer-events: none;
+  background: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 1px,
+    rgba(0, 0, 0, 0.05) 1px,
+    transparent 2px
+  );
+  z-index: 250;
+}
+
+/* Portal Overlay for Section Transitions */
+.portal {
+  position: fixed;
+  width: 100vw;
+  height: 100vh;
+  background: radial-gradient(circle, rgba(0, 255, 247, 0.3) 0%, rgba(0, 0, 0, 0.9) 100%);
+  mix-blend-mode: screen;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.5s ease-in-out;
+  z-index: 300;
+}
+.portal.active {
+  opacity: 1;
+}
+
+/* Main Logo */
+#main-logo {
+  position: fixed;
+  top: 5%;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 3rem;
+  color: var(--electric-cyan);
+  text-shadow: 0 0 15px var(--neon-magenta);
+  z-index: 400;
+  cursor: pointer;
+  user-select: none;
+}
+
+/* Section Styles */
+.section {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  padding: 2rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  background: rgba(0, 0, 0, 0.3);
+  z-index: 100;
+  transition: background 1s ease-in-out;
+}
+.section .section-content {
+  opacity: 0;
+  transform: translateY(20px);
+}
+
+/* Video Window in 'Who We Are' Section */
+.video-window {
+  margin: 1rem auto;
+  max-width: 640px;
+  width: 100%;
+  position: relative;
+}
+.video-window video {
+  width: 100%;
+  height: auto;
+  display: block;
+  border: 3px solid var(--electric-cyan);
+  box-shadow: 0 0 20px var(--neon-magenta);
+}
+
+/* Overlay shown when video is playing */
+#video-thanks {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: rgba(0, 0, 0, 0.8);
+  color: var(--electric-cyan);
+  padding: 1rem 2rem;
+  font-size: 2rem;
+  opacity: 0;
+  z-index: 600;
+  transition: opacity 0.5s ease;
+}
+
+/* Call-to-Action Button */
+a.cta {
+  display: inline-block;
+  margin-top: 1.5rem;
+  padding: 0.75rem 1.5rem;
+  background: var(--electric-cyan);
+  color: var(--background-color);
+  text-decoration: none;
+  font-size: 1.5rem;
+  border-radius: 5px;
+  transition: background 0.3s ease;
+}
+a.cta:hover {
+  background: var(--neon-magenta);
+}
+
+/* Neon Flare Effect */
+.neon-flare {
+  position: absolute;
+  border-radius: 50%;
+  background: radial-gradient(circle, var(--electric-cyan) 0%, transparent 70%);
+  width: 200px;
+  height: 200px;
+  pointer-events: none;
+  animation: flareAnim 1s ease-out forwards;
+  z-index: 500;
+}
+@keyframes flareAnim {
+  0% { transform: scale(0.2); opacity: 1; }
+  100% { transform: scale(1.5); opacity: 0; }
+}
+
+/* Text Glitch Effects */
+h1.glitch {
+  position: relative;
+}
+h1.glitch::before,
+h1.glitch::after {
+  content: attr(data-text);
+  position: absolute;
+  left: 0;
+  top: 0;
+  opacity: 0.8;
+  clip: rect(0, 900px, 0, 0);
+}
+h1.glitch:hover::before {
+  animation: glitch1 1s infinite;
+}
+h1.glitch:hover::after {
+  animation: glitch2 1s infinite;
+}
+@keyframes glitch1 {
+  0% { clip: rect(42px, 9999px, 44px, 0); transform: translate(2px, -2px); }
+  50% { clip: rect(12px, 9999px, 15px, 0); transform: translate(-2px, 2px); }
+  100% { clip: rect(42px, 9999px, 44px, 0); transform: translate(2px, -2px); }
+}
+@keyframes glitch2 {
+  0% { clip: rect(85px, 9999px, 90px, 0); transform: translate(-2px, 2px); }
+  50% { clip: rect(25px, 9999px, 30px, 0); transform: translate(2px, -2px); }
+  100% { clip: rect(85px, 9999px, 90px, 0); transform: translate(-2px, 2px); }
+}
+
+/* Flicker Animation for Headings */
+@keyframes flicker {
+  0% { opacity: 1; }
+  50% { opacity: 0.8; }
+  100% { opacity: 1; }
+}
+
+/* Glitch Effect on Canvas */
+#background-canvas.glitch-effect {
+  animation: canvasGlitch 0.1s steps(2) infinite;
+}
+@keyframes canvasGlitch {
+  0% { filter: contrast(100%) hue-rotate(0deg); }
+  50% { filter: contrast(150%) hue-rotate(20deg); }
+  100% { filter: contrast(100%) hue-rotate(0deg); }
+}

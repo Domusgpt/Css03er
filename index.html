@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Clear Seas – Emergent Reality</title>
+    <link rel="stylesheet" href="styles.css" />
+    <!-- Vaporwave–style font -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <!-- Three.js canvas -->
+    <canvas id="background-canvas"></canvas>
+
+    <!-- Overlay for scanlines / glitch effects -->
+    <div id="overlay"></div>
+
+    <!-- Portal overlay for section transitions -->
+    <div class="portal" id="portal"></div>
+
+    <!-- Main neon logo -->
+    <div id="main-logo">Clear Seas Solutions</div>
+
+    <!-- SECTION 1: Who We Are (Video Window) -->
+    <section id="who-we-are" class="section">
+      <div class="section-content">
+        <h1 data-text="Who We Are" class="glitch">Who We Are</h1>
+        <div class="video-window">
+          <!-- Replace src with your actual video URL -->
+          <video id="intro-video" controls poster="placeholder.jpg">
+            <source src="https://www.w3schools.com/html/mov_bbb.mp4" type="video/mp4" />
+            Your browser does not support the video tag.
+          </video>
+        </div>
+        <p>
+          Experience our journey in bridging innovation with
+          clarity. Click play and see our world transform.
+        </p>
+      </div>
+      <div id="video-thanks" class="video-thanks">Thank you for your attention!</div>
+    </section>
+
+    <!-- SECTION 2: Hero Section -->
+    <section id="hero" class="section">
+      <div class="section-content">
+        <h1 data-text="Unlock AI’s Potential" class="glitch">
+          Unlock AI’s Potential Without the Enterprise Price Tag
+        </h1>
+        <p>
+          Clear Seas Solutions bridges the gap between cutting-edge AI
+          technology and small-to-medium businesses. We design tailored AI
+          architectures and deliver premium media production at a fraction of
+          traditional costs—so you can compete smarter, faster, and leaner.
+        </p>
+        <a href="#services" class="cta">Start Your AI Journey Today →</a>
+      </div>
+    </section>
+
+    <!-- SECTION 3: Services -->
+    <section id="services" class="section">
+      <div class="section-content">
+        <h1 data-text="AI Strategy Meets Actionable Results" class="glitch">
+          AI Strategy Meets Actionable Results
+        </h1>
+        <p>
+          Whether you’re streamlining operations, automating workflows, or
+          scaling content creation, we turn AI from a buzzword into your
+          competitive edge.
+          <br /><br />
+          <strong>AI Architecture Consulting:</strong> Custom-built solutions
+          for your industry, data, and goals.
+          <br />
+          <strong>Cost-Effective Media Production:</strong> High-impact video,
+          graphics, and branding without the legacy agency markup.
+          <br />
+          <strong>Ongoing Optimization:</strong> We don’t just implement—we evolve
+          with your business.
+        </p>
+      </div>
+    </section>
+
+    <!-- SECTION 4: Media Production -->
+    <section id="media-production" class="section">
+      <div class="section-content">
+        <h1 data-text="Enterprise-Grade Creativity" class="glitch">
+          Enterprise-Grade Creativity, SMB Budgets
+        </h1>
+        <p>
+          Why pay legacy agency rates when AI-driven tools can slash production
+          timelines and costs? Our hybrid approach combines human creativity with
+          AI efficiency, delivering:
+          <br /><br />
+          <strong>80% Faster Turnarounds</strong>: From concept to launch, without
+          compromising quality.
+          <br />
+          <strong>Scalable Content Engines</strong>: Social media ads, explainer
+          videos, and branded campaigns that grow with you.
+          <br />
+          <strong>Transparent Pricing</strong>: No hidden fees, no surprises—just
+          results that fit your budget.
+          <br /><br />
+          <em>
+            “Clear Seas cut our video production costs by 60% and tripled our
+            output.” – [Client Name], Retail Industry
+          </em>
+        </p>
+      </div>
+    </section>
+
+    <!-- SECTION 5: Why Choose Us? -->
+    <section id="why-choose-us" class="section">
+      <div class="section-content">
+        <h1 data-text="The Clear Seas Difference" class="glitch">
+          The Clear Seas Difference
+        </h1>
+        <p>
+          AI consulting is crowded with hype. We focus on what matters:
+          <br /><br />
+          ✅ <strong>SMB-First Expertise</strong>: Solutions designed for businesses
+          with 10–500 employees.
+          <br />
+          ✅ <strong>No One-Size-Fits-All</strong>: Your AI strategy should reflect
+          your unique challenges.
+          <br />
+          ✅ <strong>ROI-Driven Partnerships</strong>: We measure success by your
+          growth, not our deliverables.
+          <br />
+          ✅ <strong>Future-Proof Foundations</strong>: Scalable systems that adapt as
+          technology evolves.
+        </p>
+      </div>
+    </section>
+
+    <!-- SECTION 6: Case Studies -->
+    <section id="case-studies" class="section">
+      <div class="section-content">
+        <h1 data-text="From Insight to Impact" class="glitch">
+          From Insight to Impact
+        </h1>
+        <div class="case-study">
+          <h2>AI-Powered Inventory Management for a Mid-Sized Retailer</h2>
+          <p>
+            <strong>Challenge:</strong> Overstocking costs drained 15% of annual
+            revenue.
+            <br />
+            <strong>Solution:</strong> Custom AI demand forecasting model + real-time
+            analytics dashboard.
+            <br />
+            <strong>Result:</strong> 35% reduction in excess inventory within 6 months.
+          </p>
+        </div>
+        <div class="case-study">
+          <h2>Scaling Content for a Healthcare Startup</h2>
+          <p>
+            <strong>Challenge:</strong> Needed 50+ patient education videos but
+            lacked budget.
+            <br />
+            <strong>Solution:</strong> AI-assisted scriptwriting + hybrid animation
+            production.
+            <br />
+            <strong>Result:</strong> 200% more content at 40% lower cost vs. traditional
+            agencies.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 7: Call to Action / Contact -->
+    <section id="cta" class="section">
+      <div class="section-content">
+        <h1 data-text="Ready to Navigate the AI Revolution?" class="glitch">
+          Ready to Navigate the AI Revolution?
+        </h1>
+        <p>
+          Don’t let legacy costs or complexity hold you back. Schedule a free
+          consultation to explore how AI can transform your workflows, customer
+          experience, and bottom line.
+          <br />
+          <em>Your first step to clearer seas starts here.</em>
+        </p>
+        <a href="mailto:contact@clearseassolutions.com" class="cta">
+          Book Your Free Strategy Session →
+        </a>
+      </div>
+    </section>
+
+    <!-- External libraries -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.10.4/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.10.4/ScrollTrigger.min.js"></script>
+
+    <!-- Main JS modules -->
+    <script type="module" src="main.js"></script>
+  </body>
+</html>
