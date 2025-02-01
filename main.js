@@ -191,6 +191,8 @@ document.querySelectorAll(".section").forEach((section) => {
         start: "top 80%",
         end: "bottom 60%",
         toggleActions: "play none none reverse",
+        onEnter: () => console.log(`Entering ${section.id}`),
+        onLeaveBack: () => console.log(`Leaving ${section.id}`)
       },
     }
   );
@@ -233,14 +235,14 @@ window.addEventListener("mousemove", (e) => {
   mouseForce.set(0, 0, 0);
 });
 
-// --- Video-Triggered Effects in "Who We Are" Section ---
+// --- Video-Triggered Effects for "Who We Are" Section ---
 const video = document.getElementById("intro-video");
 const videoThanks = document.getElementById("video-thanks");
 video.addEventListener("play", () => {
   // Invert colors by toggling a CSS class on the canvas and overlay
   canvas.classList.add("inverted");
   document.getElementById("overlay").classList.add("inverted");
-  // Show "Thank you" message overlay
+  // Show "Thank you" overlay
   videoThanks.style.opacity = "1";
   setTimeout(() => {
     videoThanks.style.opacity = "0";
